@@ -1,0 +1,235 @@
+#:import C kivy.utils.get_color_from_hex
+#:import RiseInTransition kivy.uix.screenmanager.RiseInTransition
+
+<MenuLayout>
+    padding:15
+
+<MenuScreen>
+    MenuLayout:
+        rows: 7
+        cols: 1
+        padding:20
+        spacing:"18dp"
+        pos_hint: {'center_x': 0.5, 'center_y': .5}
+        size_hint: .65,.85
+        ScoreLabel:
+            text: ""
+            #color: 1,0,0.7,1
+            color: C('#FF2768')
+            size_hint: 0.04,0.04
+        ColorMusicButton:
+            text: "Treble Clef - Beginner"
+            size_hint: 0.4,0.05
+            on_release:
+                self.parent.start_sight_reader(10)
+                app.root.current = "sightreader"
+                #root.manager.transition.direction = "left"
+            background_color: 	.02, .88, .91,1
+        ColorMusicButton:
+            text: "Treble Clef - Advanced"
+            size_hint: 0.4,0.05
+            on_release:
+                self.parent.start_sight_reader(11)
+                app.root.current = "sightreader"
+                #root.manager.transition.direction = "left"
+            background_color: 	.02, .88, .91,1
+
+        ColorMusicButton:
+            text: "Bass Clef - Beginner"
+            size_hint: 0.4,0.05
+            on_release:
+                self.parent.start_sight_reader(0)
+                app.root.current = "sightreader"
+                #root.manager.transition.direction = "left"
+            background_color: 	.02, .88, .91,1
+        ColorMusicButton:
+            text: "Bass Clef - Advanced"
+            size_hint: 0.4,0.05
+            on_release:
+                self.parent.start_sight_reader(1)
+                app.root.current = "sightreader"
+                #root.manager.transition.direction = "left"
+            background_color: 	.02, .88, .91,1
+        ScoreLabel:
+            text:"©2022 [b]Rubata [/b]Music Ai "
+            color: C('#FB8DA0')
+            size_hint: 0.1,0.1
+
+<SightReaderScreen>:
+    SightReaderLayout:
+
+
+<ColorMusicButton>:
+    size_hint: .12, None
+    background_color: 0.1, 0.5, 0.6, 1
+
+<SightReaderButton>:
+    color: .8,.9,0,1
+    font_size: 32
+    size_hint: 0.35,0.35
+    border: (2, 2, 2, 2)
+
+<SightReaderLayout>:
+    cols:1
+    rows:5
+    padding:15
+    spacing:"5dp"
+    canvas.before:
+        Color:
+            rgba: 1, 1, 1, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+    HeaderLayout
+    MusicStaffLayout
+    Separator
+    KeyboardNotes
+    TailLayout
+
+<PointsWidget>
+    cols:1
+    rows:1
+    size_hint:0.03,0.08
+    ScoreLabel:
+        id: score
+        text: '[b]1[/b]/10'
+        size_hint:0.05,0.05
+
+<MusicStaffLayout>:
+    cols:3
+    rows:1
+    padding:15
+    spacing:"5dp"
+    #size_hint:0.5,0.5
+    pos_hint: {"center_x": 0.0, "center_y":0.0}
+    Label:
+        text:""
+        size_hint:0.05,0.05
+    SightReaderButton:
+        id:cta
+        text: ' '
+        pos_hint: {"center_x": 1.0, "center_y":1.0}
+        size_hint:0.1,0.1
+        background_normal: 'images/loading.png'
+        background_down: 'images/loading.png'
+        #background_color: C('#FFCC66')
+        color: '#0C6170'
+    Label:
+        text:""
+        size_hint:0.05,0.05
+
+
+<ScoreLabel@Label>:
+    font_name: 'Roboto'
+    font_size: 20
+    color: 0.,0.,0.,1
+    markup: True
+
+<CreditsLabel@Label>:
+    font_name: 'Roboto'
+    font_size: 10
+    color: 0.,0.,0.,1
+    markup: True
+
+<RobotoButton@Button>:
+    #background_normal: 'images/button_normal.png'
+    #background_down: 'images/button_down.png'
+    color: .8,.9,0,1
+    background_color: 0.1, 0.5, 0.6, 1
+    border: (2, 2, 2, 2)
+    font_name: 'Roboto'
+    font_size: 20
+    bold: True
+
+
+<Separator@Widget>
+    size_hint_y: None
+    thickness: 9
+    margin: 1
+    height: self.thickness + 2 * self.margin
+    color: 0.752,0.752,0.752
+    canvas:
+        Color:
+            rgb: 250,250,0,1
+        Rectangle:
+            pos: self.x + self.margin, self.y + self.margin + 1
+            size: self.width - 2 * self.margin , self.thickness
+
+<HeaderLayout>
+    cols:4
+    rows:1
+    padding:10
+    spacing:"5dp"
+    size_hint:0.10,0.25
+    PointsWidget
+    ColorMusicButton:
+        text:"Back"
+        on_release:
+            self.parent.back_to_Menu()
+            app.root.current = "menu"
+        size_hint:0.03,0.1
+    ScoreLabel:
+        id: header_label
+        text:""
+        font_name: 'Roboto'
+        font_size: 12
+        color: 1,0,0.7,1
+        size_hint:0.05,0.05
+    ScoreLabel:
+        id: stopwatch
+        text: '[b]00[/b]'
+        size_hint:0.05,0.05
+
+<KeyboardNotes>:
+    cols:8
+    rows:2
+    padding: 20
+    #spacing: "5dp"
+    pos_hint: "x:0, y:0"
+    size_hint:0.5,0.5
+    ColorMusicButton:
+        #on_press: root.play_sound("C4")
+        on_release: root.match_response("C4")
+        text: "C"
+    ColorMusicButton:
+        #on_press: root.play_sound("D4")
+        on_release: root.match_response("D4")
+        text: "D"
+    ColorMusicButton:
+        #on_press: root.play_sound("E4")
+        on_release: root.match_response("E4")
+        text: "E"
+    ColorMusicButton:
+        #on_press: root.play_sound("F4")
+        on_release: root.match_response("F4")
+        text: "F"
+    ColorMusicButton:
+        #on_press: root.play_sound("G4")
+        on_release: root.match_response("G4")
+        text: "G"
+    ColorMusicButton:
+        #on_press: root.play_sound("A4")
+        on_release: root.match_response("A4")
+        text: "A"
+    ColorMusicButton:
+        #on_press: root.play_sound("B4")
+        on_release: root.match_response("B4")
+        text: "B"
+    ColorMusicButton:
+        #on_press: root.play_sound("C5")
+        on_release: root.match_response("C5")
+        text: "C"
+
+<TailLayout@BoxLayout>
+    padding: 20
+    pos_hint: {'center_x': 0.5, 'center_y': .5}
+    size_hint: 0.05,0.05
+    CreditsLabel:
+        text: "[b]Music Learner[/b] v1.0"
+        #color: 1,0,0.7,1
+        color: C('#FF2768')
+        size_hint: 0.04,0.04
+
+
+
+
